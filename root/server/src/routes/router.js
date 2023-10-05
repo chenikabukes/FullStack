@@ -2,7 +2,7 @@ const express = require("express");
 const { ObjectId } = require("mongodb");
 
 // This function will hold all the routing functionality for the database
-const newRouter = function (collection) {
+const databaseRouter = function (collection) {
   const router = express.Router();
 
   // Function for catching errors, this is to keep the code DRY
@@ -23,11 +23,8 @@ const newRouter = function (collection) {
 
   // Route for getting specific staff data
   router.get("/:id", (req, res) => {
-    console.log("in the backend api");
     const id = req.params.id;
-    console.log(req.params);
     const query = { _id: new ObjectId(id) };
-    console.log(query);
     collection
       .findOne({ _id: new ObjectId(id) }) // ObjectID(id) is used to convert the id parameter from a string to a MongoDB ObjectID, which is the expected format for querying documents by their _id.
       .then((doc) => console.log(res.json(doc))) // This part of the code is a promise chain. After the findOne query is executed, it returns a promise. If the query succeeds, it will call the function specified in the then method, passing the retrieved doc (document) as its argument.
@@ -72,4 +69,4 @@ const newRouter = function (collection) {
   return router;
 };
 
-module.exports = newRouter;
+module.exports = databaseRouter;
